@@ -1,5 +1,6 @@
 package com.finalassignment.social.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userID;
+    private int userId;
 
     @Column(name = "username")
     private String username;
@@ -22,5 +23,6 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Post> associatedPosts;
 }

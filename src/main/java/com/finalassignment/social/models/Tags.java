@@ -1,17 +1,20 @@
 package com.finalassignment.social.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tags")
 @Getter
 @Setter
 @ToString
+
 public class Tags{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +23,8 @@ public class Tags{
     @Column(name = "tag_name")
     private String tagName;
 
-    @OneToMany(mappedBy = "tags", cascade = CascadeType.ALL)
-    private List<Post> associatedPosts;
+    @ManyToMany(mappedBy = "associatedTags")
+    private Set<Post> associatedPosts = new HashSet<>();
+
+
 }

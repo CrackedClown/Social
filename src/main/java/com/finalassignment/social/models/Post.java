@@ -6,12 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "post")
@@ -21,7 +20,6 @@ import static javax.persistence.GenerationType.AUTO;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "postId")
     private int postId;
 
     @Column(name = "title")
@@ -30,12 +28,16 @@ public class Post {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Tags> tags;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "posts_tags",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private Set<Tags> associatedTags = new HashSet<>();
 }
