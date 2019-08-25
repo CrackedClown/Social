@@ -1,5 +1,6 @@
 package com.finalassignment.social.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,5 +28,6 @@ public class Tags{
     private String tagName;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "associatedTags")
+    @JsonBackReference
     private Set<Post> associatedPosts = new HashSet<>();
 }

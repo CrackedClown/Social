@@ -43,5 +43,6 @@ public class Post {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
+    @JsonManagedReference
     private Set<Tags> associatedTags = new HashSet<>();
 }
