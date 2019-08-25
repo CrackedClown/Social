@@ -35,13 +35,13 @@ public class PostController {
         return postService.getPostsById(Collections.singleton(post_id));
     }
 
-    @DeleteMapping("/users/{id}/post/{post_id}")
+    @DeleteMapping("/users/{id}/posts/{post_id}")
     public void removePostById(@PathVariable Integer post_id){
         postService.removePostById(post_id);
     }
 
     @GetMapping("/users/{id}/tags/{tagName}")
-    public Set<Post> getPostsByTag(@PathVariable String tagName){
+    public List<Post> getPostsByTag(@PathVariable String tagName){
         return postService.getPostsByTag(tagName);
     }
 

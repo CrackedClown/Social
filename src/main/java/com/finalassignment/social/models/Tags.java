@@ -1,12 +1,14 @@
 package com.finalassignment.social.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,12 +16,11 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-
-public class Tags{
-    public Tags(){
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Tags {
+    Tags(){
 
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tagId;
@@ -27,7 +28,7 @@ public class Tags{
     @Column(name = "tag_name")
     private String tagName;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "associatedTags")
+    @ManyToMany(mappedBy = "associatedTags")
     @JsonBackReference
-    private Set<Post> associatedPosts = new HashSet<>();
+    private List<Post> associatedPosts = new ArrayList<>();
 }

@@ -1,14 +1,15 @@
 package com.finalassignment.social.models;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -17,7 +18,11 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Post {
+    Post(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
@@ -28,10 +33,15 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "likes")
+    private int likes;
+
+    @Column(name = "views")
+    private int views;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn
+    private UserProfile userProfile;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -39,6 +49,5 @@ public class Post {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
-    @JsonManagedReference
-    private Set<Tags> associatedTags = new HashSet<>();
+    private List<Tags> associatedTags = new ArrayList<>();
 }

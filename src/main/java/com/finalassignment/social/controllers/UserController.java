@@ -2,8 +2,11 @@ package com.finalassignment.social.controllers;
 
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.services.UserService;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -25,8 +28,18 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @DeleteMapping("/user")
-    public void removeUserById(@RequestBody User user){
-        userService.removeUser(user);
+    @DeleteMapping("/user/{id}")
+    public void removeUserById(@PathVariable Integer id){
+        userService.removeUserById(id);
+    }
+
+    @PutMapping("/user/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Integer id){
+        return userService.updateUser(user, id);
+    }
+
+    @GetMapping("/user")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
     }
 }

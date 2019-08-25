@@ -5,6 +5,8 @@ import com.finalassignment.social.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     UserRepository userRepository;
@@ -22,7 +24,24 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void removeUser(User user){
-        userRepository.delete(user);
+    public void removeUserById(Integer id){
+        userRepository.deleteById(id);
+    }
+
+    public User updateUser(User user, Integer id){
+        if(userRepository.existsById(id)){
+            User tempUser = userRepository.getOne(id);
+            tempUser.setUserId(id);
+            tempUser.setUsername(user.getUsername());
+            tempUser.setPassword(user.getPassword());
+            tempUser.setUserProfile(user.getUserProfile());
+            userRepository.saveAndFlush(tempUser);
+            return tempUser;
+        }
+        return userRepository.save(user);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 }
