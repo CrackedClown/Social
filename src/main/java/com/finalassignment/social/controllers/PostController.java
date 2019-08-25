@@ -25,6 +25,10 @@ public class PostController {
     public Post createPost(@PathVariable Integer id, @RequestBody Post post){
         return postService.createPostForId(post, id);
     }
+    @GetMapping("/users/{id}/posts")
+    public List<Post> getAllPosts(){
+        return postService.getAllPosts();
+    }
 
     @GetMapping("/users/{id}/posts/{post_id}")
     public List<Post> getPostById(@PathVariable Integer post_id){

@@ -38,6 +38,10 @@ public class PostService {
         postRepository.deleteById(post_id);
     }
 
+    public List<Post> getAllPosts(){
+        return postRepository.findAll();
+    }
+
     public Set<Post> getPostsByTag(String tagName) {
         TypedQuery<Tags> query = entityManager.createQuery(
                 "SELECT t FROM Tags t WHERE t.tagName = :name", Tags.class);
