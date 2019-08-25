@@ -22,10 +22,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
-    public Post(){
-
-    }
-
     @Column(name = "title")
     private String title;
 

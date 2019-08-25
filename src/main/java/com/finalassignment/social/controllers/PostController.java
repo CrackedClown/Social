@@ -21,24 +21,24 @@ public class PostController {
         this.tagsService = tagsService;
     }
 
-    @PostMapping("/user/{id}/post")
+    @PostMapping("/users/{id}/posts")
     public Post createPost(@PathVariable Integer id, @RequestBody Post post){
         return postService.createPostForId(post, id);
     }
 
-    @GetMapping("/user/{id}/post/{post_id}")
+    @GetMapping("/users/{id}/posts/{post_id}")
     public List<Post> getPostById(@PathVariable Integer post_id){
         return postService.getPostsById(Collections.singleton(post_id));
     }
 
-    @DeleteMapping("/user/{id}/post/{post_id}")
+    @DeleteMapping("/users/{id}/post/{post_id}")
     public void removePostById(@PathVariable Integer post_id){
         postService.removePostById(post_id);
     }
 
-    @GetMapping("/user/{id}/post/tags/{tagName}")
+    @GetMapping("/users/{id}/tags/{tagName}")
     public Set<Post> getPostsByTag(@PathVariable String tagName){
-        return tagsService.getPostsByTag(tagName);
+        return postService.getPostsByTag(tagName);
     }
 
 }
