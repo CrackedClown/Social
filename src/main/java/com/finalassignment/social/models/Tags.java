@@ -1,6 +1,5 @@
 package com.finalassignment.social.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,15 +15,17 @@ import java.util.Set;
 @ToString
 
 public class Tags{
+    public Tags(){
+
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tagId;
 
     @Column(name = "tag_name")
     private String tagName;
 
-    @ManyToMany(mappedBy = "associatedTags")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "associatedTags")
     private Set<Post> associatedPosts = new HashSet<>();
-
-
 }
