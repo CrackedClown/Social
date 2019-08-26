@@ -24,35 +24,43 @@ public class PostService {
     private EntityManager entityManager;
 
     @Autowired
-    PostService(PostRepository postRepository, UserProfileRepository userProfileRepository, EntityManager entityManager){
+    PostService(PostRepository postRepository, UserProfileRepository userProfileRepository, EntityManager entityManager) {
         this.postRepository = postRepository;
         this.userProfileRepository = userProfileRepository;
         this.entityManager = entityManager;
     }
 
-    public Post createPostForId(Post post, Integer id){
+    public Post createPostForId(Post post, Integer id) {
         post.setUserProfile(userProfileRepository.findById(id).orElse(null));
         return postRepository.save(post);
     }
 
-    public Post getPostById(Integer post_id){
-        Post post =  postRepository.findById(post_id).orElse(null);
+    public Post getPostById(Integer post_id) {
+        Post post = postRepository.findById(post_id).orElse(null);
         post.setViews(post.getViews() + 1);
         postRepository.save(post);
         return post;
     }
 
-    public void removePostById(Integer post_id){
+    public Post updatePostById(Integer post_id, Post post) {
+        Post tempPost = postRepository.findById(post_id).orElse(null);
+        tempPost.setTitle(post.getTitle());
+        tempPost.setContent(post.getContent());
+        postRepository.save(tempPost);
+        return tempPost;
+    }
+
+    public void removePostById(Integer post_id) {
         postRepository.deleteById(post_id);
     }
 
-    public List<Post> getAllPosts(){
-        postRepository.findAll().forEach(post -> post.setViews(post.getViews()+1));
+    public List<Post> getAllPosts() {
+        postRepository.findAll().forEach(post -> post.setViews(post.getViews() + 1));
         postRepository.findAll().forEach(post -> postRepository.save(post));
         return postRepository.findAll();
     }
 
-    public void likeAPostById(Integer post_id){
+    public void likeAPostById(Integer post_id) {
         Post post = postRepository.findById(post_id).orElse(null);
         post.setLikes(post.getLikes() + 1);
         postRepository.save(post);

@@ -25,8 +25,8 @@ public class UserProfileService {
         return userProfileRepository.save(userProfile);
     }
 
-    public void removeUserProfile(UserProfile userProfile){
-        userProfileRepository.delete(userProfile);
+    public void removeUserProfileById(Integer id){
+        userProfileRepository.deleteById(id);
     }
 
     public UserProfile updateUserProfile(UserProfile userProfile, Integer id){

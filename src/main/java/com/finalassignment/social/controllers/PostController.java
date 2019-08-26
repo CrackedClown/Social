@@ -41,6 +41,10 @@ public class PostController {
         postService.removePostById(post_id);
     }
 
+    @PutMapping("/users/{id}/posts/{post_id}")
+    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @RequestBody Post post){
+        return postService.updatePostById(post_id, post);
+    }
     @PostMapping("/users/{id}/posts/{post_id}/like")
     public void likeAPostById(@PathVariable("post_id") Integer post_id){
         postService.likeAPostById(post_id);

@@ -21,20 +21,20 @@ public class UserProfileController {
         return userProfileService.getAllUserProfiles();
     }
 
-    @PostMapping("/user/{id}/user_profile")
+    @PostMapping("/users/{id}/user_profile")
     public UserProfile createUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
         userProfile.setUserId(id);
         return userProfileService.createUserProfile(userProfile);
     }
 
-    @GetMapping("/user/{id}/user_profile")
+    @GetMapping("/users/{id}/user_profile")
     public UserProfile findUserProfileById(@PathVariable(value = "user_id") Integer id){
         return userProfileService.findUserProfileById(id);
     }
 
-    @DeleteMapping("/user/{id}/user_profile")
-    public void removeUserProfile(@RequestBody UserProfile userProfile){
-        userProfileService.removeUserProfile(userProfile);
+    @DeleteMapping("/users/{id}/user_profile")
+    public void removeUserProfileById(@PathVariable Integer id){
+        userProfileService.removeUserProfileById(id);
     }
 
     @PutMapping("/users/{id}/user_profile")
