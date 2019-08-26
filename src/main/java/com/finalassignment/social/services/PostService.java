@@ -4,6 +4,7 @@ import com.finalassignment.social.models.Post;
 import com.finalassignment.social.models.Tags;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.PostRepository;
+import com.finalassignment.social.repositories.TagsRepository;
 import com.finalassignment.social.repositories.UserProfileRepository;
 import com.finalassignment.social.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,21 @@ public class PostService {
     private PostRepository postRepository;
     private UserProfileRepository userProfileRepository;
     private EntityManager entityManager;
+    private TagsRepository tagsRepository;
 
     @Autowired
-    PostService(PostRepository postRepository, UserProfileRepository userProfileRepository, EntityManager entityManager) {
+    PostService(PostRepository postRepository, UserProfileRepository userProfileRepository, EntityManager entityManager, TagsRepository tagsRepository) {
         this.postRepository = postRepository;
         this.userProfileRepository = userProfileRepository;
         this.entityManager = entityManager;
+        this.tagsRepository = tagsRepository;
     }
 
     public Post createPostForId(Post post, Integer id) {
+        if(post.getLikes() > 0 || post.getViews() > 0){
+            post.setLikes(0);
+            post.setViews(0);
+        }
         post.setUserProfile(userProfileRepository.findById(id).orElse(null));
         return postRepository.save(post);
     }
@@ -44,6 +51,8 @@ public class PostService {
 
     public Post updatePostById(Integer post_id, Post post) {
         Post tempPost = postRepository.findById(post_id).orElse(null);
+        post.setLikes(tempPost.getLikes());
+        post.setViews(tempPost.getViews());
         tempPost.setTitle(post.getTitle());
         tempPost.setContent(post.getContent());
         return postRepository.save(tempPost);
