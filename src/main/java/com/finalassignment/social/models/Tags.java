@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Tags {
     private int tagId;
 
     @Column(name = "tag_name", unique = true)
+    @NotNull(message = "Tag name is must!")
     private String tagName;
 
     @ManyToMany(mappedBy = "associatedTags")

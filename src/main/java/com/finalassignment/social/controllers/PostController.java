@@ -6,6 +6,7 @@ import com.finalassignment.social.services.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class PostController {
     }
 
     @PostMapping("/users/{id}/posts")
-    public Post createPost(@PathVariable Integer id, @RequestBody Post post) {
+    public Post createPost(@PathVariable Integer id, @Valid @RequestBody Post post) {
         return postService.createPostForId(post, id);
     }
 
@@ -42,10 +43,10 @@ public class PostController {
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
-    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @RequestBody Post post){
+    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post){
         return postService.updatePostById(post_id, post);
     }
-    @PostMapping("/users/{id}/posts/{post_id}/like")
+    @PutMapping("/users/{id}/posts/{post_id}/like")
     public void likeAPostById(@PathVariable("post_id") Integer post_id){
         postService.likeAPostById(post_id);
     }

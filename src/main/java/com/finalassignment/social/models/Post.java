@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,10 +30,16 @@ public class Post {
     private int postId;
 
     @Column(name = "title")
+    @NotBlank(message = "Title is mandatory!")
     private String title;
 
     @Column(name = "content")
+    @NotBlank(message = "Content is mandatory!")
     private String content;
+
+    @Column(name = "contenttype")
+    @NotBlank(message = "Content Type is mandatory!")
+    private String contentType;
 
     @Column(name = "likes")
     private int likes;
@@ -49,5 +57,6 @@ public class Post {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
+    @NotNull(message = "At least 1 tag is necessary!")
     private Set<Tags> associatedTags = new HashSet<>();
 }

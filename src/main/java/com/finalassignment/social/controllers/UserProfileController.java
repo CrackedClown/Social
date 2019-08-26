@@ -5,6 +5,7 @@ import com.finalassignment.social.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,23 +23,23 @@ public class UserProfileController {
     }
 
     @PostMapping("/users/{id}/profile")
-    public UserProfile createUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
+    public UserProfile createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
         userProfile.setUserId(id);
         return userProfileService.createUserProfile(userProfile);
     }
 
     @GetMapping("/users/{id}/profile/{user_id}")
-    public UserProfile findUserProfileById(@PathVariable(value = "user_id") Integer id){
+    public UserProfile findUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
         return userProfileService.findUserProfileById(id);
     }
 
     @DeleteMapping("/users/{id}/profile")
-    public void removeUserProfileById(@PathVariable Integer id){
+    public void removeUserProfileById(@Valid @PathVariable Integer id){
         userProfileService.removeUserProfileById(id);
     }
 
     @PutMapping("/users/{id}/profile")
-    public UserProfile updateUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
+    public UserProfile updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
         return userProfileService.updateUserProfile(userProfile, id);
     }
 }

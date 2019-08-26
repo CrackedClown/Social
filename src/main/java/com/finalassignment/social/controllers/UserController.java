@@ -6,6 +6,7 @@ import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable Integer id){
+    public User updateUser(@Valid @RequestBody User user, @PathVariable Integer id){
         return userService.updateUser(user, id);
     }
 

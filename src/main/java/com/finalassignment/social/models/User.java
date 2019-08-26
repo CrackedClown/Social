@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -19,9 +21,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @NotBlank(message = "Username cannot be blank!")
     @Column(name = "username", unique = true)
     private String username;
 
+    @NotBlank(message = "Password field cannot be blank!")
     @Column(name = "password")
     private String password;
 
