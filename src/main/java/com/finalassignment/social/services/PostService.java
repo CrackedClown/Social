@@ -46,8 +46,7 @@ public class PostService {
         Post tempPost = postRepository.findById(post_id).orElse(null);
         tempPost.setTitle(post.getTitle());
         tempPost.setContent(post.getContent());
-        postRepository.save(tempPost);
-        return tempPost;
+        return postRepository.save(tempPost);
     }
 
     public void removePostById(Integer post_id) {

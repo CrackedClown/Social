@@ -31,12 +31,10 @@ public class UserProfileService {
 
     public UserProfile updateUserProfile(UserProfile userProfile, Integer id){
         if(userProfileRepository.existsById(id)){
-            UserProfile tempUserProfile = userProfileRepository.getOne(id);
-            tempUserProfile.setUserId(id);
+            UserProfile tempUserProfile = userProfileRepository.findById(id).orElse(null);
             tempUserProfile.setFirstName(userProfile.getFirstName());
             tempUserProfile.setLastName(userProfile.getFirstName());
-            userProfileRepository.saveAndFlush(tempUserProfile);
-            return tempUserProfile;
+            return userProfileRepository.save(tempUserProfile);
         }
         return userProfileRepository.save(userProfile);
     }
