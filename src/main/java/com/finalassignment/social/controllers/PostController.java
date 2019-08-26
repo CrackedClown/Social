@@ -6,6 +6,8 @@ import com.finalassignment.social.models.Post;
 import com.finalassignment.social.services.PostService;
 import com.finalassignment.social.services.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,32 +27,34 @@ public class PostController {
     }
 
     @GetMapping("/users/{id}/posts")
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPosts());
     }
 
     @PostMapping("/users/{id}/posts")
-    public Post createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException {
-        return postService.createPostForId(post, id);
+    public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPostForId(post, id));
     }
 
     @GetMapping("/users/{id}/posts/{post_id}")
-    public  Post getPostById(@PathVariable Integer post_id) throws PostNotFoundException {
-        return postService.getPostById(post_id);
+    public ResponseEntity<Post> getPostById(@PathVariable Integer post_id) throws PostNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(post_id));
     }
 
     @DeleteMapping("/users/{id}/posts/{post_id}")
-    public void removePostById(@PathVariable Integer post_id) {
+    public ResponseEntity<Void> removePostById(@PathVariable Integer post_id) {
         postService.removePostById(post_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
-    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException {
-        return postService.updatePostById(post_id, post);
+    public ResponseEntity<Post> updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(postService.updatePostById(post_id, post));
     }
     @PutMapping("/users/{id}/posts/{post_id}/like")
-    public void likeAPostById(@PathVariable("post_id") Integer post_id){
+    public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id){
         postService.likeAPostById(post_id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
