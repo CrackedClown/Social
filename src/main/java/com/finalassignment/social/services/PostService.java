@@ -1,5 +1,7 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.PostNotFoundException;
+import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
 import com.finalassignment.social.models.Tags;
 import com.finalassignment.social.models.UserProfile;
@@ -33,24 +35,24 @@ public class PostService {
         this.tagsRepository = tagsRepository;
     }
 
-    public Post createPostForId(Post post, Integer id) {
+    public Post createPostForId(Post post, Integer id) throws UserNotFoundException {
         if(post.getLikes() > 0 || post.getViews() > 0){
             post.setLikes(0);
             post.setViews(0);
         }
-        post.setUserProfile(userProfileRepository.findById(id).orElse(null));
+        post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserNotFound")));
         return postRepository.save(post);
     }
 
-    public Post getPostById(Integer post_id) {
-        Post post = postRepository.findById(post_id).orElse(null);
+    public Post getPostById(Integer post_id) throws PostNotFoundException {
+        Post post = postRepository.findById(post_id).orElseThrow(( ) -> new PostNotFoundException("PostNotFound"));
         post.setViews(post.getViews() + 1);
         postRepository.save(post);
         return post;
     }
 
-    public Post updatePostById(Integer post_id, Post post) {
-        Post tempPost = postRepository.findById(post_id).orElse(null);
+    public Post updatePostById(Integer post_id, Post post) throws PostNotFoundException {
+        Post tempPost = postRepository.findById(post_id).orElseThrow(( ) -> new PostNotFoundException("PostNotFound"));
         post.setLikes(tempPost.getLikes());
         post.setViews(tempPost.getViews());
         tempPost.setTitle(post.getTitle());

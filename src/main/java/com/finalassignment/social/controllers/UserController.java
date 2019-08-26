@@ -1,5 +1,6 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.services.UserService;
 import org.omg.CORBA.INTERNAL;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User findUserById(@PathVariable Integer id){
+    public User findUserById(@PathVariable Integer id) throws UserNotFoundException {
         return userService.findUserById(id);
     }
 
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@Valid @RequestBody User user, @PathVariable Integer id){
+    public User updateUser(@Valid @RequestBody User user, @PathVariable Integer id) throws UserNotFoundException {
         return userService.updateUser(user, id);
     }
 

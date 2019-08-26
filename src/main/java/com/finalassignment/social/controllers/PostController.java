@@ -1,5 +1,7 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.PostNotFoundException;
+import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
 import com.finalassignment.social.services.PostService;
 import com.finalassignment.social.services.TagsService;
@@ -28,12 +30,12 @@ public class PostController {
     }
 
     @PostMapping("/users/{id}/posts")
-    public Post createPost(@PathVariable Integer id, @Valid @RequestBody Post post) {
+    public Post createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException {
         return postService.createPostForId(post, id);
     }
 
     @GetMapping("/users/{id}/posts/{post_id}")
-    public  Post getPostById(@PathVariable Integer post_id) {
+    public  Post getPostById(@PathVariable Integer post_id) throws PostNotFoundException {
         return postService.getPostById(post_id);
     }
 
@@ -43,7 +45,7 @@ public class PostController {
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
-    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post){
+    public Post updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException {
         return postService.updatePostById(post_id, post);
     }
     @PutMapping("/users/{id}/posts/{post_id}/like")
