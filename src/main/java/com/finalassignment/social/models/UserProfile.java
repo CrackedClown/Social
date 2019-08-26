@@ -36,7 +36,3 @@ public class UserProfile {
     @JsonIgnore
     private Set<Post> associatedPosts;
 }
-
-/* @OneToOne
-    @MapsId
-    private User user;*/

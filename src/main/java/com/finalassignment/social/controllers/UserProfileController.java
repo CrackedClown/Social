@@ -3,6 +3,8 @@ package com.finalassignment.social.controllers;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,28 +20,29 @@ public class UserProfileController {
     }
 
     @GetMapping("/users/{id}/profile")
-    public List<UserProfile> getAllUserProfiles(){
-        return userProfileService.getAllUserProfiles();
+    public ResponseEntity<List<UserProfile>> getAllUserProfiles(){
+        return ResponseEntity.status(HttpStatus.OK).body(userProfileService.getAllUserProfiles());
     }
 
     @PostMapping("/users/{id}/profile")
-    public UserProfile createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
+    public ResponseEntity<UserProfile> createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
         userProfile.setUserId(id);
-        return userProfileService.createUserProfile(userProfile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userProfileService.createUserProfile(userProfile));
     }
 
     @GetMapping("/users/{id}/profile/{user_id}")
-    public UserProfile findUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
-        return userProfileService.findUserProfileById(id);
+    public ResponseEntity<UserProfile> findUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(userProfileService.findUserProfileById(id));
     }
 
     @DeleteMapping("/users/{id}/profile")
-    public void removeUserProfileById(@Valid @PathVariable Integer id){
+    public ResponseEntity<Void> removeUserProfileById(@Valid @PathVariable Integer id){
         userProfileService.removeUserProfileById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}/profile")
-    public UserProfile updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
-        return userProfileService.updateUserProfile(userProfile, id);
+    public ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userProfileService.updateUserProfile(userProfile, id));
     }
 }

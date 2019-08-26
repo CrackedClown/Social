@@ -3,13 +3,12 @@ package com.finalassignment.social.controllers;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.services.UserService;
-import org.omg.CORBA.INTERNAL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -48,5 +47,4 @@ public class UserController {
     public ResponseEntity<User> updateUser(@Valid @RequestBody User user, @PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.updateUser(user, id));
     }
-
 }
