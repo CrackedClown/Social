@@ -16,7 +16,7 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/{id}/user_profile")
     public List<UserProfile> getAllUserProfiles(){
         return userProfileService.getAllUserProfiles();
     }
@@ -27,7 +27,7 @@ public class UserProfileController {
         return userProfileService.createUserProfile(userProfile);
     }
 
-    @GetMapping("/users/{id}/user_profile")
+    @GetMapping("/users/{id}/user_profile/{user_id}")
     public UserProfile findUserProfileById(@PathVariable(value = "user_id") Integer id){
         return userProfileService.findUserProfileById(id);
     }
@@ -41,6 +41,4 @@ public class UserProfileController {
     public UserProfile updateUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
         return userProfileService.updateUserProfile(userProfile, id);
     }
-
-
 }

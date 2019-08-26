@@ -30,13 +30,11 @@ public class UserService {
 
     public User updateUser(User user, Integer id){
         if(userRepository.existsById(id)){
-            User tempUser = userRepository.getOne(id);
-            tempUser.setUserId(id);
+            User tempUser = userRepository.findById(id).orElse(null);
             tempUser.setUsername(user.getUsername());
             tempUser.setPassword(user.getPassword());
             tempUser.setUserProfile(user.getUserProfile());
-            userRepository.saveAndFlush(tempUser);
-            return tempUser;
+            return userRepository.save(tempUser);
         }
         return userRepository.save(user);
     }
