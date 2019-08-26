@@ -39,6 +39,8 @@ public class TagsService {
         for(Tags tag : tagsList){
             postList.addAll(tag.getAssociatedPosts());
         }
+        postList.forEach(post -> post.setViews(post.getViews() + 1));
+        postList.forEach(post -> postRepository.save(post));
         return postList;
     }
 

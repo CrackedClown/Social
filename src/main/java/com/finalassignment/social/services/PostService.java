@@ -36,7 +36,10 @@ public class PostService {
     }
 
     public Post getPostById(Integer post_id){
-        return postRepository.findById(post_id).orElse(null);
+        Post post =  postRepository.findById(post_id).orElse(null);
+        post.setViews(post.getViews() + 1);
+        postRepository.save(post);
+        return post;
     }
 
     public void removePostById(Integer post_id){
