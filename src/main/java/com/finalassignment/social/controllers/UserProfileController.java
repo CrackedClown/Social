@@ -16,28 +16,31 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @PostMapping("/users")
-    public UserProfile createUserProfile(@RequestBody UserProfile userProfile){
+    @GetMapping("/users/{id}")
+    public List<UserProfile> getAllUserProfiles(){
+        return userProfileService.getAllUserProfiles();
+    }
+
+    @PostMapping("/user/{id}/user_profile")
+    public UserProfile createUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
+        userProfile.setUserId(id);
         return userProfileService.createUserProfile(userProfile);
     }
 
-    @GetMapping("/users/{id}")
-    public UserProfile findUserProfileById(@PathVariable Integer id){
+    @GetMapping("/user/{id}/user_profile")
+    public UserProfile findUserProfileById(@PathVariable(value = "user_id") Integer id){
         return userProfileService.findUserProfileById(id);
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/user/{id}/user_profile")
     public void removeUserProfile(@RequestBody UserProfile userProfile){
         userProfileService.removeUserProfile(userProfile);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/{id}/user_profile")
     public UserProfile updateUserProfile(@RequestBody UserProfile userProfile, @PathVariable Integer id){
-        return userProfileService.updateUserProfile(userProfile);
+        return userProfileService.updateUserProfile(userProfile, id);
     }
 
-    @GetMapping("/users")
-    public List<UserProfile> getAllUserProfiles(){
-        return userProfileService.getAllUserProfiles();
-    }
+
 }

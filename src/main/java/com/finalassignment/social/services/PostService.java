@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -34,8 +35,8 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> getPostsById(Iterable<Integer> id){
-        return postRepository.findAllById(id);
+    public Post getPostById(Integer post_id){
+        return postRepository.findById(post_id).orElse(null);
     }
 
     public void removePostById(Integer post_id){
@@ -43,18 +44,14 @@ public class PostService {
     }
 
     public List<Post> getAllPosts(){
+        postRepository.findAll().forEach(post -> post.setViews(post.getViews()+1));
+        postRepository.findAll().forEach(post -> postRepository.save(post));
         return postRepository.findAll();
     }
 
-    public List<Post> getPostsByTag(String tagName) {
-        TypedQuery<Tags> query = entityManager.createQuery(
-                "SELECT t FROM Tags t WHERE t.tagName = :name", Tags.class);
-        query.setParameter("name", tagName);
-        List<Tags> tagsList = query.getResultList();
-        List<Post> postList = new ArrayList<>();
-        for(Tags tag : tagsList){
-            postList.addAll(tag.getAssociatedPosts());
-        }
-        return postList;
+    public void likeAPostById(Integer post_id){
+        Post post = postRepository.findById(post_id).orElse(null);
+        post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
     }
 }

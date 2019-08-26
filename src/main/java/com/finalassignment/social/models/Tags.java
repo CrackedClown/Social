@@ -25,10 +25,10 @@ public class Tags {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tagId;
 
-    @Column(name = "tag_name")
+    @Column(name = "tag_name", unique = true)
     private String tagName;
 
     @ManyToMany(mappedBy = "associatedTags")
     @JsonBackReference
-    private List<Post> associatedPosts = new ArrayList<>();
+    private Set<Post> associatedPosts = new HashSet<>();
 }

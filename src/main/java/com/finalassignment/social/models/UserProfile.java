@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_profile")
@@ -22,7 +23,11 @@ public class UserProfile {
     @Column(name = "last_name")
     private String lastName;
 
+   /* @OneToOne
+    @MapsId
+    private User user;*/
+
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Post> associatedPosts;
+    private Set<Post> associatedPosts;
 }

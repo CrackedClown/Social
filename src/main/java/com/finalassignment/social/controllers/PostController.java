@@ -16,33 +16,34 @@ public class PostController {
     private TagsService tagsService;
 
     @Autowired
-    PostController(PostService postService, TagsService tagsService){
+    PostController(PostService postService, TagsService tagsService) {
         this.postService = postService;
         this.tagsService = tagsService;
     }
 
-    @PostMapping("/users/{id}/posts")
-    public Post createPost(@PathVariable Integer id, @RequestBody Post post){
-        return postService.createPostForId(post, id);
-    }
     @GetMapping("/users/{id}/posts")
-    public List<Post> getAllPosts(){
+    public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
+    @PostMapping("/users/{id}/posts")
+    public Post createPost(@PathVariable Integer id, @RequestBody Post post) {
+        return postService.createPostForId(post, id);
+    }
+
     @GetMapping("/users/{id}/posts/{post_id}")
-    public List<Post> getPostById(@PathVariable Integer post_id){
-        return postService.getPostsById(Collections.singleton(post_id));
+    public  Post getPostById(@PathVariable Integer post_id) {
+        return postService.getPostById(post_id);
     }
 
     @DeleteMapping("/users/{id}/posts/{post_id}")
-    public void removePostById(@PathVariable Integer post_id){
+    public void removePostById(@PathVariable Integer post_id) {
         postService.removePostById(post_id);
     }
 
-    @GetMapping("/users/{id}/tags/{tagName}")
-    public List<Post> getPostsByTag(@PathVariable String tagName){
-        return postService.getPostsByTag(tagName);
+    @PostMapping("/users/{id}/posts/{post_id}/like")
+    public void likeAPostById(@PathVariable("post_id") Integer post_id){
+        postService.likeAPostById(post_id);
     }
 
 }

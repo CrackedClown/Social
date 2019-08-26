@@ -49,5 +49,5 @@ public class Post {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
-    private List<Tags> associatedTags = new ArrayList<>();
+    private Set<Tags> associatedTags = new HashSet<>();
 }

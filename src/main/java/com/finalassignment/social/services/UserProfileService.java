@@ -29,11 +29,16 @@ public class UserProfileService {
         userProfileRepository.delete(userProfile);
     }
 
-    public UserProfile updateUserProfile(UserProfile userProfile){
-        if(userProfileRepository.existsById(userProfile.getUserId())){
-            return userProfileRepository.save(userProfile);
+    public UserProfile updateUserProfile(UserProfile userProfile, Integer id){
+        if(userProfileRepository.existsById(id)){
+            UserProfile tempUserProfile = userProfileRepository.getOne(id);
+            tempUserProfile.setUserId(id);
+            tempUserProfile.setFirstName(userProfile.getFirstName());
+            tempUserProfile.setLastName(userProfile.getFirstName());
+            userProfileRepository.saveAndFlush(tempUserProfile);
+            return tempUserProfile;
         }
-        return null;
+        return userProfileRepository.save(userProfile);
     }
 
     public List<UserProfile> getAllUserProfiles(){
