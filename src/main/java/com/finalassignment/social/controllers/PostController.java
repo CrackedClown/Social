@@ -7,6 +7,7 @@ import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
 import com.finalassignment.social.services.PostService;
 import com.finalassignment.social.services.TagsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @RestController
 public class PostController {
     private PostService postService;
@@ -28,31 +30,38 @@ public class PostController {
 
     @GetMapping("/users/{id}/posts")
     public ResponseEntity<List<Post>> getAllPosts() {
+        log.debug("Getting All Posts, In PostController");
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPosts());
     }
 
     @PostMapping("/users/{id}/posts")
     public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException, IllegalModificationException {
+        log.debug("Creating Post, In PostController");
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPostForId(post, id));
     }
 
     @GetMapping("/users/{id}/posts/{post_id}")
     public ResponseEntity<Post> getPostById(@PathVariable Integer post_id) throws PostNotFoundException {
+        log.debug("Getting a specific Post, In PostController");
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(post_id));
     }
 
     @DeleteMapping("/users/{id}/posts/{post_id}")
     public ResponseEntity<Void> removePostById(@PathVariable Integer post_id) {
+        log.debug("Removing Post, In PostController");
         postService.removePostById(post_id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
     public ResponseEntity<Post> updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException, IllegalModificationException {
+        log.debug("Updating Post, In PostController");
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(postService.updatePostById(post_id, post));
     }
+
     @PutMapping("/users/{id}/posts/{post_id}/like")
     public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id, @PathVariable("id") Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+        log.debug("Liking Post, In PostController");
         postService.likeAPostById(post_id, id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

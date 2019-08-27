@@ -1,5 +1,6 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.UserAlreadyExistsException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.services.UserProfileService;
@@ -26,7 +27,7 @@ public class UserProfileController {
     }
 
     @PostMapping("/users/{id}/profile")
-    public ResponseEntity<UserProfile> createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
+    public ResponseEntity<UserProfile> createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id) throws UserAlreadyExistsException {
         userProfile.setUserId(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(userProfileService.createUserProfile(userProfile));
     }

@@ -1,6 +1,7 @@
-package com.finalassignment.social.models;
+package com.finalassignment.social.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.finalassignment.social.models.Post;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

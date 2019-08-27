@@ -1,4 +1,4 @@
-package com.finalassignment.social.models;
+package com.finalassignment.social.dto;
 
 import lombok.Getter;
 import lombok.Setter;

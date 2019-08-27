@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @ControllerAdvice
 @RestController
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -28,6 +31,18 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     }
     @ExceptionHandler(PostNotFoundException.class)
     public final ResponseEntity<ExceptionResponse> handlePostNotFoundException(PostNotFoundException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public final ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public final ResponseEntity<ExceptionResponse> handleConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }

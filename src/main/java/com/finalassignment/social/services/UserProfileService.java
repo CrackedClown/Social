@@ -1,6 +1,8 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.UserAlreadyExistsException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
+import com.finalassignment.social.models.User;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,13 @@ public class UserProfileService {
         return userProfileRepository.findById(id).orElse(null);
     }
 
-    public UserProfile createUserProfile(UserProfile userProfile){
+    public UserProfile createUserProfile(UserProfile userProfile) throws UserAlreadyExistsException {
+        List<UserProfile> userProfileList = userProfileRepository.findAll();
+        for(UserProfile tempUserProfile : userProfileList){
+            if((tempUserProfile.getEmail()).equals(userProfile.getEmail())){
+                throw new UserAlreadyExistsException("User Profile Already Exists");
+            }
+        }
         return userProfileRepository.save(userProfile);
     }
 

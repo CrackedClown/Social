@@ -24,12 +24,14 @@ public class UserService {
 
     //Manually checking username exists or not because unique keyboard is not working for some reason!
     public User createUser(User user) throws UserAlreadyExistsException {
-        List<User> userList = userRepository.findAll();
+        User tempUser = userRepository.findByUsername(user.getUsername());
+        System.out.println(tempUser);
+       /* List<User> userList = userRepository.findAll();
         for(User tempUser : userList){
             if(user.getUsername().equals(tempUser.getUsername())){
                 throw new UserAlreadyExistsException("Username Already Exists");
             }
-        }
+        }*/
         return userRepository.save(user);
     }
 
