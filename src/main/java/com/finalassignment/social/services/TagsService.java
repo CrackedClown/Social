@@ -4,6 +4,7 @@ import com.finalassignment.social.models.Post;
 import com.finalassignment.social.models.Tags;
 import com.finalassignment.social.repositories.PostRepository;
 import com.finalassignment.social.repositories.TagsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class TagsService {
     private TagsRepository tagsRepository;
@@ -27,10 +29,12 @@ public class TagsService {
     }
 
     public void removeTagById(Integer tag_id){
+        log.debug("Removing Tag by ID, In TagsService");
         tagsRepository.deleteById(tag_id);
     }
 
     public Set<Post> getPostsByTag(String tagName) {
+        log.debug("Getting Posts by Tag, In TagsService");
         TypedQuery<Tags> query = entityManager.createQuery("SELECT t FROM Tags t WHERE t.tagName = :name", Tags.class);
         query.setParameter("name", tagName);
         List<Tags> tagsList = query.getResultList();
@@ -44,6 +48,7 @@ public class TagsService {
     }
 
     public List<Tags> getAllTags(){
+        log.debug("Getting All Tags, In TagsService");
         return tagsRepository.findAll();
     }
 }
