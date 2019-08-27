@@ -37,10 +37,6 @@ public class Post {
     @NotBlank(message = "Content is mandatory!")
     private String content;
 
-    @Column(name = "contenttype")
-    @NotBlank(message = "Content Type is mandatory!")
-    private String contentType;
-
     @Column(name = "likes")
     private int likes;
 

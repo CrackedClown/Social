@@ -1,22 +1,16 @@
 package com.finalassignment.social.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name = "user")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
     @Id

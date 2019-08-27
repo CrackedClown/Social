@@ -31,9 +31,9 @@ public class UserProfile {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Post> likedPosts = new ArrayList<>();
+    private List<Post> likedPosts = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
     @JsonIgnore

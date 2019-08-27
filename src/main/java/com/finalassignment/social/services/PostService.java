@@ -71,13 +71,6 @@ public class PostService {
 
     public void likeAPostById(Integer post_id, Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
         Post post = postRepository.findById(post_id).orElseThrow(() -> new PostNotFoundException("PostNotFound"));
-        UserProfile userProfile = userProfileRepository.findById(id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
-        List<Post> likedPosts = userProfile.getLikedPosts();
-        for(Post tempPost : likedPosts){
-            if(tempPost.getPostId() == post_id){
-                throw new AlreadyLikedException("You have already liked the post!");
-            }
-        }
         post.setLikes(post.getLikes() + 1);
         postRepository.save(post);
     }

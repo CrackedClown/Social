@@ -31,8 +31,7 @@ public class TagsService {
     }
 
     public Set<Post> getPostsByTag(String tagName) {
-        TypedQuery<Tags> query = entityManager.createQuery(
-                "SELECT t FROM Tags t WHERE t.tagName = :name", Tags.class);
+        TypedQuery<Tags> query = entityManager.createQuery("SELECT t FROM Tags t WHERE t.tagName = :name", Tags.class);
         query.setParameter("name", tagName);
         List<Tags> tagsList = query.getResultList();
         Set<Post> postList = new HashSet<>();

@@ -1,5 +1,6 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.UserAlreadyExistsException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.repositories.UserRepository;
@@ -21,7 +22,14 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found"));
     }
 
-    public User createUser(User user) {
+    //Manually checking username exists or not because unique keyboard is not working for some reason!
+    public User createUser(User user) throws UserAlreadyExistsException {
+        List<User> userList = userRepository.findAll();
+        for(User tempUser : userList){
+            if(user.getUsername().equals(tempUser.getUsername())){
+                throw new UserAlreadyExistsException("Username Already Exists");
+            }
+        }
         return userRepository.save(user);
     }
 
