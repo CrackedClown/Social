@@ -37,9 +37,9 @@ public class UserProfileController {
     }
 
     @GetMapping("/users/{id}/profile/{user_id}")
-    public ResponseEntity<UserProfile> findUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
+    public ResponseEntity<UserProfile> getUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
         log.debug("Finding a UserProfile, In UserProfileController");
-        return ResponseEntity.status(HttpStatus.OK).body(userProfileService.findUserProfileById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(userProfileService.getUserProfileById(id));
     }
 
     @DeleteMapping("/users/{id}/profile")
