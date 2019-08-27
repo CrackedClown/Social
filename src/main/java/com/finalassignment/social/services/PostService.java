@@ -5,19 +5,17 @@ import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
-import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.PostRepository;
 import com.finalassignment.social.repositories.TagsRepository;
 import com.finalassignment.social.repositories.UserProfileRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
+@Slf4j
 @Service
 public class PostService {
     private PostRepository postRepository;
@@ -34,14 +32,16 @@ public class PostService {
     }
 
     public Post createPostForId(Post post, Integer id) throws UserNotFoundException, IllegalModificationException {
+        log.debug("Creating Post, In PostService");
         if(post.getLikes() > 0 || post.getViews() > 0){
-            throw new IllegalModificationException("You're not allowed to change Likes or View status");
+            throw new IllegalModificationException("You're not allowed to modify Likes or View status");
         }
         post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserNotFound")));
         return postRepository.save(post);
     }
 
     public Post getPostById(Integer post_id) throws PostNotFoundException {
+        log.debug("Getting a specific Post, In PostService");
         Post post = postRepository.findById(post_id).orElseThrow(( ) -> new PostNotFoundException("PostNotFound"));
         post.setViews(post.getViews() + 1);
         postRepository.save(post);
@@ -49,6 +49,7 @@ public class PostService {
     }
 
     public Post updatePostById(Integer post_id, Post post) throws PostNotFoundException, IllegalModificationException {
+        log.debug("Updating Post, In PostService");
         Post tempPost = postRepository.findById(post_id).orElseThrow(( ) -> new PostNotFoundException("PostNotFound"));
         if(post.getLikes() != tempPost.getLikes() || post.getViews() != tempPost.getViews()){
             throw new IllegalModificationException("You're not allowed to change Likes or View status");
@@ -60,16 +61,19 @@ public class PostService {
     }
 
     public void removePostById(Integer post_id) {
+        log.debug("Removing Post, In PostService");
         postRepository.deleteById(post_id);
     }
 
     public List<Post> getAllPosts() {
+        log.debug("Getting All Posts, In PostService");
         postRepository.findAll().forEach(post -> post.setViews(post.getViews() + 1));
         postRepository.findAll().forEach(post -> postRepository.save(post));
         return postRepository.findAll();
     }
 
     public void likeAPostById(Integer post_id, Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+        log.debug("Liking Post, In PostService");
         Post post = postRepository.findById(post_id).orElseThrow(() -> new PostNotFoundException("PostNotFound"));
         post.setLikes(post.getLikes() + 1);
         postRepository.save(post);
