@@ -1,5 +1,6 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.AlreadyLikedException;
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
@@ -12,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class PostController {
@@ -53,8 +52,8 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(postService.updatePostById(post_id, post));
     }
     @PutMapping("/users/{id}/posts/{post_id}/like")
-    public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id){
-        postService.likeAPostById(post_id);
+    public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id, @PathVariable("id") Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+        postService.likeAPostById(post_id, id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

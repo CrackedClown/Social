@@ -1,9 +1,11 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.AlreadyLikedException;
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
+import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.PostRepository;
 import com.finalassignment.social.repositories.TagsRepository;
 import com.finalassignment.social.repositories.UserProfileRepository;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -65,8 +69,15 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public void likeAPostById(Integer post_id) {
-        Post post = postRepository.findById(post_id).orElse(null);
+    public void likeAPostById(Integer post_id, Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+        Post post = postRepository.findById(post_id).orElseThrow(() -> new PostNotFoundException("PostNotFound"));
+        UserProfile userProfile = userProfileRepository.findById(id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
+        List<Post> likedPosts = userProfile.getLikedPosts();
+        for(Post tempPost : likedPosts){
+            if(tempPost.getPostId() == post_id){
+                throw new AlreadyLikedException("You have already liked the post!");
+            }
+        }
         post.setLikes(post.getLikes() + 1);
         postRepository.save(post);
     }

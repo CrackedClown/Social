@@ -1,5 +1,6 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UserProfileController {
     }
 
     @PutMapping("/users/{id}/profile")
-    public ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id){
+    public ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userProfileService.updateUserProfile(userProfile, id));
     }
 }

@@ -1,10 +1,12 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.x509.OtherName;
 
 import java.util.List;
 
@@ -29,14 +31,9 @@ public class UserProfileService {
         userProfileRepository.deleteById(id);
     }
 
-    public UserProfile updateUserProfile(UserProfile userProfile, Integer id){
-        if(userProfileRepository.existsById(id)){
-            UserProfile tempUserProfile = userProfileRepository.findById(id).orElse(null);
-            tempUserProfile.setFirstName(userProfile.getFirstName());
-            tempUserProfile.setLastName(userProfile.getFirstName());
-            return userProfileRepository.save(tempUserProfile);
-        }
-        return userProfileRepository.save(userProfile);
+    public UserProfile updateUserProfile(UserProfile userProfile, Integer id) throws UserNotFoundException {
+            userProfileRepository.findById(id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
+            return userProfileRepository.save(userProfile);
     }
 
     public List<UserProfile> getAllUserProfiles(){
