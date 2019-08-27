@@ -1,5 +1,6 @@
 package com.finalassignment.social.services;
 
+import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
@@ -35,10 +36,9 @@ public class PostService {
         this.tagsRepository = tagsRepository;
     }
 
-    public Post createPostForId(Post post, Integer id) throws UserNotFoundException {
+    public Post createPostForId(Post post, Integer id) throws UserNotFoundException, IllegalModificationException {
         if(post.getLikes() > 0 || post.getViews() > 0){
-            post.setLikes(0);
-            post.setViews(0);
+            throw new IllegalModificationException("You're not allowed to change Likes or View status");
         }
         post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserNotFound")));
         return postRepository.save(post);
@@ -51,10 +51,12 @@ public class PostService {
         return post;
     }
 
-    public Post updatePostById(Integer post_id, Post post) throws PostNotFoundException {
+    public Post updatePostById(Integer post_id, Post post) throws PostNotFoundException, IllegalModificationException {
         Post tempPost = postRepository.findById(post_id).orElseThrow(( ) -> new PostNotFoundException("PostNotFound"));
-        post.setLikes(tempPost.getLikes());
-        post.setViews(tempPost.getViews());
+        if(post.getLikes() != tempPost.getLikes() || post.getViews() != tempPost.getViews()){
+            throw new IllegalModificationException("You're not allowed to change Likes or View status");
+        }
+
         tempPost.setTitle(post.getTitle());
         tempPost.setContent(post.getContent());
         return postRepository.save(tempPost);
