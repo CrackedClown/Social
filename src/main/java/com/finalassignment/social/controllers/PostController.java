@@ -1,5 +1,6 @@
 package com.finalassignment.social.controllers;
 
+import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
@@ -32,7 +33,7 @@ public class PostController {
     }
 
     @PostMapping("/users/{id}/posts")
-    public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException {
+    public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException, IllegalModificationException {
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPostForId(post, id));
     }
 
@@ -48,7 +49,7 @@ public class PostController {
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
-    public ResponseEntity<Post> updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException {
+    public ResponseEntity<Post> updatePostById(@PathVariable(value = "post_id") Integer post_id, @Valid @RequestBody Post post) throws PostNotFoundException, IllegalModificationException {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(postService.updatePostById(post_id, post));
     }
     @PutMapping("/users/{id}/posts/{post_id}/like")

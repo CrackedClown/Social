@@ -7,7 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -31,6 +33,11 @@ public class UserProfile {
     @Column(name = "email")
     @Email
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id")
+    Map<Integer, Boolean> hasLiked = new HashMap<>();
+
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
     @JsonIgnore

@@ -4,22 +4,15 @@ import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
-import com.finalassignment.social.models.Tags;
-import com.finalassignment.social.models.UserProfile;
 import com.finalassignment.social.repositories.PostRepository;
 import com.finalassignment.social.repositories.TagsRepository;
 import com.finalassignment.social.repositories.UserProfileRepository;
-import com.finalassignment.social.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
+
 
 @Service
 public class PostService {
