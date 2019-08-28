@@ -17,11 +17,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Tags {
-    Tags(){
 
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tagId;

@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,9 +23,7 @@ import java.util.Set;
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Post {
-    Post(){
 
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
@@ -53,6 +52,6 @@ public class Post {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
-    @NotNull(message = "At least 1 tag is necessary!")
+    @NotEmpty(message = "At least 1 tag is necessary!")
     private Set<Tags> associatedTags = new HashSet<>();
 }

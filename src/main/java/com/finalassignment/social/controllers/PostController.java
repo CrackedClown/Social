@@ -1,6 +1,5 @@
 package com.finalassignment.social.controllers;
 
-import com.finalassignment.social.exceptions.AlreadyLikedException;
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
@@ -99,11 +98,10 @@ public class PostController {
      * @param id
      * @return
      * @throws UserNotFoundException
-     * @throws AlreadyLikedException
      * @throws PostNotFoundException
      */
     @PutMapping("/users/{id}/posts/{post_id}/like")
-    public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id, @PathVariable("id") Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+    public ResponseEntity<Void> likeAPostById(@PathVariable("post_id") Integer post_id, @PathVariable("id") Integer id) throws UserNotFoundException, PostNotFoundException {
         log.debug("Liking Post, In PostController");
         postService.likeAPostById(post_id, id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);

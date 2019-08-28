@@ -2,6 +2,7 @@ package com.finalassignment.social.services;
 
 import com.finalassignment.social.exceptions.UserAlreadyExistsException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
+import com.finalassignment.social.models.Role;
 import com.finalassignment.social.models.User;
 import com.finalassignment.social.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,5 @@
 package com.finalassignment.social.services;
 
-import com.finalassignment.social.exceptions.AlreadyLikedException;
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
@@ -36,7 +35,7 @@ public class PostService {
         if(post.getLikes() > 0 || post.getViews() > 0){
             throw new IllegalModificationException("You're not allowed to modify Likes or View status");
         }
-        post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserNotFound")));
+        post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserProfileNotFound")));
         return postRepository.save(post);
     }
 
@@ -72,7 +71,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public void likeAPostById(Integer post_id, Integer id) throws UserNotFoundException, AlreadyLikedException, PostNotFoundException {
+    public void likeAPostById(Integer post_id, Integer id) throws UserNotFoundException, PostNotFoundException {
         log.debug("Liking Post, In PostService");
         Post post = postRepository.findById(post_id).orElseThrow(() -> new PostNotFoundException("PostNotFound"));
         post.setLikes(post.getLikes() + 1);
