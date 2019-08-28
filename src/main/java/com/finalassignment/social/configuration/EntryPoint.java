@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 
 
 @Component
-public class CustomEntryPoint extends BasicAuthenticationEntryPoint {
+public class EntryPoint extends BasicAuthenticationEntryPoint {
 
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException) throws IOException, ServletException {
