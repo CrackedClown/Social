@@ -2,6 +2,7 @@ package com.finalassignment.social.controllers;
 
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
+import com.finalassignment.social.exceptions.TagListEmptyException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
 import com.finalassignment.social.services.PostService;
@@ -47,7 +48,7 @@ public class PostController {
      * @throws IllegalModificationException
      */
     @PostMapping("/users/{id}/posts")
-    public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException, IllegalModificationException {
+    public ResponseEntity<Post> createPost(@PathVariable Integer id, @Valid @RequestBody Post post) throws UserNotFoundException, IllegalModificationException, TagListEmptyException {
         log.debug("Creating Post, In PostController");
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPostForId(post, id));
     }

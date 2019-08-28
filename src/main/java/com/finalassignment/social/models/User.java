@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -27,6 +29,7 @@ public class User {
 
     @NotBlank(message = "Password field cannot be blank!")
     @Column(name = "password")
+    @Length(min = 5, message = "Password must be at least of 5 character length!")
     private String password;
 
     @Column(name = "is_active")

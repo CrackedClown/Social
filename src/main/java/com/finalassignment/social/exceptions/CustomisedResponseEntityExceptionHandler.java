@@ -42,7 +42,13 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public final ResponseEntity<ExceptionResponse> handleConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+    public final ResponseEntity<ExceptionResponse> handelSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TagListEmptyException.class)
+    public final ResponseEntity<ExceptionResponse> handleTagListEmptyException(TagListEmptyException ex) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }

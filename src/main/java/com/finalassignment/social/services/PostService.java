@@ -2,8 +2,10 @@ package com.finalassignment.social.services;
 
 import com.finalassignment.social.exceptions.IllegalModificationException;
 import com.finalassignment.social.exceptions.PostNotFoundException;
+import com.finalassignment.social.exceptions.TagListEmptyException;
 import com.finalassignment.social.exceptions.UserNotFoundException;
 import com.finalassignment.social.models.Post;
+import com.finalassignment.social.models.Tags;
 import com.finalassignment.social.repositories.PostRepository;
 import com.finalassignment.social.repositories.TagsRepository;
 import com.finalassignment.social.repositories.UserProfileRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -30,10 +33,14 @@ public class PostService {
         this.tagsRepository = tagsRepository;
     }
 
-    public Post createPostForId(Post post, Integer id) throws UserNotFoundException, IllegalModificationException {
+    public Post createPostForId(Post post, Integer id) throws UserNotFoundException, IllegalModificationException, TagListEmptyException {
         log.debug("Creating Post, In PostService");
         if(post.getLikes() > 0 || post.getViews() > 0){
             throw new IllegalModificationException("You're not allowed to modify Likes or View status");
+        }
+        Set<Tags> tagList = post.getAssociatedTags();
+        if(tagList.isEmpty()){
+            throw new TagListEmptyException("Post must have atleast 1 tag");
         }
         post.setUserProfile(userProfileRepository.findById(id).orElseThrow(( ) -> new UserNotFoundException("UserProfileNotFound")));
         return postRepository.save(post);
