@@ -6,6 +6,7 @@ import com.finalassignment.social.models.User;
 import com.finalassignment.social.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.List;
 @Service
 public class UserService {
     UserRepository userRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    UserService(UserRepository userRepository) {
+    UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public User findUserById(Integer id) throws UserNotFoundException {
@@ -27,8 +30,7 @@ public class UserService {
 
     public User createUser(User user) throws UserAlreadyExistsException {
         log.debug("Creating a User, In UserService");
-        User tempUser = userRepository.findByUsername(user.getUsername());
-        System.out.println(tempUser);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

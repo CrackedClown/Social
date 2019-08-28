@@ -27,7 +27,14 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "is_active")
+    Boolean isActive = true;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private UserProfile userProfile;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    Role role;
 }

@@ -19,4 +19,6 @@ public class UserDto {
 
     @NotBlank(message = "Password field cannot be blank!")
     private String password;
+
+    private UserProfileDto userProfileDto;
 }
