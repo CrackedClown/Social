@@ -26,11 +26,22 @@ public class TagsController {
         this.tagsService = tagsService;
     }
 
+
+    /**
+     * To get all the tags
+     * @return
+     */
     @GetMapping("/users/{id}/tags")
     public ResponseEntity<List<Tags>> getAllTags() {
         log.debug("Getting All Tags, In TagsController");
         return ResponseEntity.status(HttpStatus.OK).body(tagsService.getAllTags());
     }
+
+    /**
+     * To get a post by TagName
+     * @param tagName
+     * @return
+     */
 
     @GetMapping("/users/{id}/tags/{tagName}")
     public ResponseEntity<Set<Post>> getPostsByTag(@PathVariable String tagName) {
@@ -38,6 +49,12 @@ public class TagsController {
         return ResponseEntity.status(HttpStatus.OK).body(tagsService.getPostsByTag(tagName));
     }
 
+
+    /**
+     * To remove a tag by ID
+     * @param tag_id
+     * @return
+     */
     @DeleteMapping("/users/{id}/tags/{tag_id}")
     public ResponseEntity<Void> removeTagById(@PathVariable Integer tag_id){
         log.debug("Removing Tag by ID, In TagsController");

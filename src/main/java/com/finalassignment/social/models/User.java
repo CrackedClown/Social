@@ -23,7 +23,6 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password field cannot be blank!")
-    @Pattern(regexp="^[\\p{Lower}\\p{Upper}\\d]*$")
     @Column(name = "password")
     private String password;
 
@@ -37,4 +36,5 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     Role role;
+
 }

@@ -23,11 +23,23 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
+    /**
+     * To get all the User Profiles
+     * @return
+     */
     @GetMapping("/users/{id}/profile")
     public ResponseEntity<List<UserProfile>> getAllUserProfiles(){
         log.debug("Getting All UserProfiles, In UserProfileController");
         return ResponseEntity.status(HttpStatus.OK).body(userProfileService.getAllUserProfiles());
     }
+
+    /**
+     * To create a new User Profile
+     * @param userProfile
+     * @param id
+     * @return
+     * @throws UserAlreadyExistsException
+     */
 
     @PostMapping("/users/{id}/profile")
     public ResponseEntity<UserProfile> createUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id) throws UserAlreadyExistsException {
@@ -36,11 +48,22 @@ public class UserProfileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userProfileService.createUserProfile(userProfile));
     }
 
+    /**
+     * To get a User Profile By ID
+     * @param id
+     * @return
+     */
     @GetMapping("/users/{id}/profile/{user_id}")
     public ResponseEntity<UserProfile> getUserProfileById(@Valid @PathVariable(value = "user_id") Integer id){
         log.debug("Finding a UserProfile, In UserProfileController");
         return ResponseEntity.status(HttpStatus.OK).body(userProfileService.getUserProfileById(id));
     }
+
+    /**
+     * To remove a user Profile By ID
+     * @param id
+     * @return
+     */
 
     @DeleteMapping("/users/{id}/profile")
     public ResponseEntity<Void> removeUserProfileById(@Valid @PathVariable Integer id){
@@ -49,6 +72,13 @@ public class UserProfileController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * To Update a User Profile
+     * @param userProfile
+     * @param id
+     * @return
+     * @throws UserNotFoundException
+     */
     @PutMapping("/users/{id}/profile")
     public ResponseEntity<UserProfile> updateUserProfile(@Valid @RequestBody UserProfile userProfile, @Valid @PathVariable Integer id) throws UserNotFoundException {
         log.debug("Updating a UserProfile, In UserProfileController");
